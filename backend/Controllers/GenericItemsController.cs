@@ -10,7 +10,6 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Route("api/genericitems")]
     [Authorize]
     [IgnoreAntiforgeryToken]
     public class GenericItemsController : ControllerBase
