@@ -38,7 +38,7 @@ if (!string.IsNullOrEmpty(connectionString) && (connectionString.StartsWith("pos
 {
     var uri = new Uri(connectionString);
     var userInfo = uri.UserInfo.Split(':');
-    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SslMode=Require;TrustServerCertificate=true";
+    connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -114,6 +114,12 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+// Enable CORS globally at top of pipeline (handles preflight OPTIONS requests & exceptions)
+app.UseCors(policy => policy
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
+
 // Global Antiforgery Bypass Middleware
 app.Use(async (context, next) =>
 {
@@ -155,7 +161,6 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseRouting();
-app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
