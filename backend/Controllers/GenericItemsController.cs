@@ -9,7 +9,8 @@ using System.Security.Claims;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [Route("api/genericitems")]
     [Authorize]
     [IgnoreAntiforgeryToken]
     public class GenericItemsController : ControllerBase
